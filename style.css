@@ -1,0 +1,199 @@
+body{
+    background-color: black;
+}
+
+canvas{
+    border: 20px;
+}
+span.arrow {
+    margin-left: 6px;
+    height:17px;
+}
+label.error {
+    height:17px;
+    margin-left:9px;
+    padding:1px 5px 0px 5px;
+    font-size:small;
+    color: blue;
+}
+
+header img{
+    display: flex;
+    width: 100%;
+    height: auto;
+}
+#pic{
+    margin-top: 5px;
+    float:right;
+}
+
+.tablinks,#about{
+    font-family: 'Limelight', cursive;
+    font-weight: bolder;
+    font-size: 18px;
+    color: blue;
+}
+footer{
+    display: block;
+    color:green;
+    background-color:blue;
+}
+/* Style the tab */
+div.tab {
+    overflow: hidden;
+    border: none;
+    background-color: black;
+    width: 100%;
+    margin-top: -2px;
+    display: flex;
+    margin-left: -10px;
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.but:hover {
+    background-color: grey;
+    color: blue;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: blue;
+    color: black;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border: none;
+    margin-left: -20px;
+    
+}
+.modal1 {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.2); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: silver;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    font-family: 'Roboto', sans-serif;
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.tablinks2, .tablinks, #userr, .but  {
+    color: blue;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    background-color:black;
+    font-family: 'Limelight', cursive;
+    font-weight: bolder;
+    font-size: 20px;
+}
+.tablinks2 {
+    border: 2px solid blue;
+}
+#welcome22, #signup22, #signin22{
+    text-align: center;
+    font-family: 'Love Ya Like A Sister', cursive;
+    background-color: black;
+    color: blue;
+    margin-top: -2px;
+    width: 100%;
+    font-size: 18px;
+    vertical-align:middle;
+}
+
+#signup22, #signin22{
+    text-align: left;
+}
+
+#signup22 input, #signin22 input, .formush input{
+    border-color: darkblue;
+    background-color: #b3b3b3;
+    font-family: 'Love Ya Like A Sister', cursive;
+    font-size: 16px;
+    color: blue;
+    margin-bottom: 5px;
+}
+
+.but{
+    color: blue;
+    text-align: center;
+    border-color: blue;
+    border-width:medium;
+    font-size: 25px;
+}
+
+footer{
+    right: 0;
+    left:0;
+    bottom: 0;
+    padding: 1rem;
+    background:rgba(217, 217, 217,0.7);
+    color:blue;
+    text-align: center;
+    position: fixed;
+    margin-left: -10px;
+    font-family: 'Limelight', cursive;
+}
+
+.formush{
+    color: darkblue;
+    font-family: 'Love Ya Like A Sister', cursive;
+    
+}
+#circle {
+      width: 25px;
+      height: 25px;
+      -webkit-border-radius: 25px;
+      -moz-border-radius: 25px;
+      border-radius: 25px;
+    }
+
+#userr{
+	color: white;
+	text-decoration: none;
+    float: right;
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px blue, 0 0 70px blue, 0 0 80px blue, 0 0 100px blue, 0 0 150px blue;
+	}
