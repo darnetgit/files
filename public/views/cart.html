@@ -1,0 +1,42 @@
+<link rel="stylesheet" type="text/css" href="public/stylesheets/style.css">
+<script type="text/javascript" src="public/javascripts/js.js"></script>
+<div class="hotandnew" ng-controller="cartController as cartCtrl">
+    <div ng-controller="productsController as productsCtrl">
+    <div ng-init="cartCtrl.displayCart()">
+        <div class="why" ng-repeat="rows in cartCtrl.cart">
+            <table style="padding-left: 10px">
+                <td>
+                <th><img class ="diskPic" ng-src="{{rows[5]}}"  height="130" width="200"/></th>
+                <td>{{rows[0]}}<br>{{rows[4]}}<br>{{rows[7]}}</td>
+                <th>
+                <td><button id="btn" ng-click="cartCtrl.remove(rows)">Remove item from cart</button><br><br>
+                    <button id="btn" ng-click="cartCtrl.desopen(rows)"> Show full Product Details</button>
+                </td></th>
+            </table>
+            <span ng-show="cartCtrl.showde">
+                <div class="modal2">
+                <div class="modal-content">
+                    <table>
+                              <button class="close" ng-click="cartCtrl.desopen()" >&times;</button>
+                              <h1>{{cartCtrl.det[0].substring(5)}}</h1>
+                              <th> <img ng-src="{{cartCtrl.det[5]}}"  height="130" width="200"/> </th>
+                              <th><br>{{cartCtrl.det[0]}}<br>{{cartCtrl.det[1]}}<br>{{cartCtrl.det[2]}}<br>{{cartCtrl.det[3]}}<br>{{cartCtrl.det[4]}}<br></th>
+                              <th>
+                                 <form name="purForm" ng-submit="cartCtrl.update(cartCtrl.det)" novalidate>
+                                       &emsp;<lable>Update amount: </lable>
+                                       <input min="1" type="number" ng-required="true" name="quantity" value="1" ng-model="cartCtrl.amount"><br>
+                                       <p ng-show="purForm.quantity.$invalid && !purForm.quantity.$pristine" class="help-block">must be 1 and up</p>
+                                    <br>&emsp;<input type="submit" class="btn2" ng-disabled="purForm.$invalid" value="Add to cart!" >
+                                 </form>
+                              </th>
+                           </table>
+                </div>
+            </div>
+            </span>
+
+        </div>
+        <Label>Total price: {{cartCtrl.total}}</Label><br><br>
+        <span><a id="btn" href="#/history"> show order history</a></span>
+    </div>
+</div>
+</div>

@@ -1,0 +1,41 @@
+<div class="login-container" ng-controller="loginController as loginCtrl">
+    <center><div class="login-form">
+        <form name="loginForm" ng-submit="loginCtrl.login(loginForm.$valid)" novalidate>
+            <table>
+                <tr class="form-group">
+
+                    <td><label>Username</label></td>
+                    <td><input type="text"
+                               ng-model="loginCtrl.user.username"
+                               ng-required="true"
+                               class="form-control"
+                               name="usernameInput"
+                               placeholder="Enter Username"></td>
+                    <td><p ng-show="loginForm.usernameInput.$invalid && !loginForm.usernameInput.$pristine" class="help-block">Username is required</p></td>
+
+                </tr>
+                <tr class="form-group">
+                    <td><label>Password</label></td>
+                    <td><input type="password"
+                           ng-model="loginCtrl.user.password"
+                           ng-required="true"
+                           class="form-control"
+                           name="passwordInput"
+                           placeholder="Enter Password"
+                           ng-minlength="0"></td>
+                    <td><p ng-show="loginForm.passwordInput.$error.minlength && !loginForm.passwordInput.$pristine" class="help-block">Password is too short</p></td>
+                </tr>
+                </table>
+            <br>
+            <input type="submit" id="btn"
+                   class="btn btn-success btn-lg"
+                   value="Login"
+                   ng-disabled="loginForm.$invalid">
+            <a href="#/restore" id="btn3">Forgot password?</a>
+        </form>
+        <div>
+            {{loginCtrl.errorMessage}}
+        </div>
+    </div>
+    </center>
+</div>

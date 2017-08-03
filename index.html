@@ -1,170 +1,90 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="style.css">
-        <link href="https://fonts.googleapis.com/css?family=Wendy+One" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Limelight" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    </head>
-    <body onload="openCity(event,'welcome2',1)">
-        <!--Header-->
-        <header>
-            <!--<div style="float:left">
-<h1>Pac-Man</h1>
-<label>Dar&Car</label>
-</div>
-<div  id="pic">
-<img src="logo.png" height="100" width="150" align="right">
-</div>-->
-            <img src="banner.png">
-        </header>
+<html lang="en" ng-app="puzzles">
+<head>
+    <meta charset="UTF-8">
+    <title>Puzzles</title>
+    <script src="angularScripts/angular.js"></script>
+    <script type="text/javascript" src="angularScripts/angular-route.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script type="text/javascript" src="angular-local-storage.min.js"></script>
 
-        <!--MENU-->
-        <div class="tab">
-            <button class="tablinks" id="welcome2" onclick="openCity(event, 'welcome2',1)">Welcome</button>
-            <button class="tablinks" id="signup2"  onclick="openCity(event, 'signup2',1)">Sign Up</button>
-            <button class="tablinks" id="signin2"  onclick="openCity(event, 'signin2',1)">Sign In</button>
-            <button id="about">About</button>
-            <button type="button" class="tablinks" id="logout" onclick="Logout()" style="display:none">Log Out</button>
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-            <label id="userr" style="display:none; float:right">
-            </label>
-        </div>
+    <script src="ctrls.js"></script>
+    <script type="text/javascript" src="xml2json.js"></script>
+    <script type="text/javascript" src="public/javascripts/js.js"></script>
+    <link rel="stylesheet" type="text/css" href="public/stylesheets/style.css">
 
-        <!--POPUP-->
-        <div id="modal" class="modal1">
-            <!-- Modal content -->
-            <div class="modal-content">
-                <span class="close"> &times;</span>
-                <p>Welcome to PAC-MAN of Carmela Davisovsky and Dar Nettler!<br>We used JQuery plugins validations functions in order to validate sign up form and the game's settings form.<br>We did not use any templates.<br>We found it difficult to debug our code and making the board fit correctly to the screen.</p>
-            </div>
-        </div>
+    <link href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ribeye+Marrow" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Paytone+One" rel="stylesheet">
 
-        <div id="welcome22" class="tabcontent" style="width:100%; font-size:26px">
-            <div id="buttons">
-                <br><br><br><br>
-                Let's see if you have the guts to play the greatest game you'll ever play!<br><br>
-                <button class="tablinks2" name="up" onclick="openCity(event, 'signup2',2)"> Sign-up</button>
-                <button class="tablinks2" name="in" onclick="openCity(event, 'signin2',2)">Sign-in</button>
-            </div>
+    <script>
+        function hide() {
+            var x=document.getElementById("tohide");
+            x.style.display='block';
+            x=document.getElementById("tohide2");
+            x.style.display='block';
+            x=document.getElementById("tohide3");
+            x.style.display='none';
+        }
+    </script>
+</head>
+<body>
 
-        </div>
+<header>
+    <div ng-controller="mainController as mainCtrl" >
+        <table>
+            <tr>
+                <th><img src="logo.png" style="width:50px; padding-top: 5px">&nbsp;&nbsp;&nbsp;Puzzles</th>
+                <th colspan="1"><a ng-hide="!mainCtrl.userservice.isLoggedIn" href="#/cart"><img src="cart.png" style="width:50px; float: right"></a></th>
+                <th class="hello" colspan="3" style="text-align: right">Hello {{mainCtrl.userservice.userName}}<br> <div style="font-size: 16px" ng-show="mainCtrl.userservice.isLoggedIn">Last login: {{mainCtrl.userservice.lastLogin| date : 'medium'}}</div></th>
+            </tr>
+            <tr>
+                <td>Why is it called puzzles? That's the puzzle.&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</td>
+                <td><span><a class="links" href="#/">Home&emsp;</a></span></td>
+                <td><span><a ng-hide="mainCtrl.userservice.isLoggedIn" class="links" href="#/login">Login&emsp;</a></span></td>
+                <td><span><a ng-hide="mainCtrl.userservice.isLoggedIn" class="links" href="#/register">Register&emsp;</a></span></td>
+                <td><span><a ng-hide="!mainCtrl.userservice.isLoggedIn" class="links" href="#/cart">Cart&emsp;</a></span></td>
+                <td><span><a  class="links" href="#/products">Products&emsp;</a></span></td>
+                <td><span><a ng-click="mainCtrl.userservice.logout()" ng-hide="!mainCtrl.userservice.isLoggedIn" class="links" href="#/">LogOut&emsp;</a></span></td>
+                <td> <span><a class="links" id="myButton" onclick="modelbox()">About</a></span></td>
+                    <div id="myModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <h1>Welcome to our puzzle store!</h1>
+                            <h2>here is some of our previous work:</h2>
 
-        <div id="signup22" class="tabcontent">
-            <!--UpSignUp-->
-            <div>
-                <form action='mailto:carmelad@post.bgu.ac.il' method='post' id='SignUpForm' style="padding-left: 20px">
-
-                    <label>First Name: </label><br />
-                    <input type='text' name='firstname' placeholder="First Name" required/>
-                    <br/>
-                    <label>Last Name: </label><br />
-                    <input type='text' name='lastname' placeholder="Last Name" required />
-                    <br/>
-                    <label>User Name: </label><br/>
-                    <input type='text' name='usernane'id='usname' placeholder="User Name" required />
-                    <br/>
-                    <label>Password: </label><br />
-                    <input type='password' name='pass' id='pasush' placeholder="Password" required />
-                    <br />
-                    <label>Email: </label><br />
-                    <input type='email' name='email' required />
-                    <br />
-                    <label>DOB: </label><br />
-                    <input type='date' name='date' placeholder="Date Of Birth" required />
-                    <br />
-                    <center><input class="but" type='submit' value='Register' style="background-color: black; margin-top:-10px" Onclick='SignUp()'/></center>
-                </form>
-
-            </div>
-        </div>
-
-        <div id="signin22" class="tabcontent" style="padding-left: 15px">
-            <!--InSignIn-->
-            <div id="forsi">
-                <form action='JavaScript:ConnectUser()' method='post' id='SignInForm'>
-                    <label>User Name: </label><br>
-                    <input type='text' name='username' id='uname' placeholder="Enter User Name" required/>
-                    <br />
-                    <label>Password: </label><br>
-                    <input type='password' name='pass' id='password' placeholder="Enter Password" required />
-                    <br />
-                    <br />
-                    <center><input class="but" type='submit' value='Take me to the game!' style="background-color: black"/></center>
-                </form>
-            </div>
-            <div id="gameBoard" style="display:none">
-                <div style="float: left">
-					<form id="gameush" action='JavaScript:Restart()'id='startgame'>
-                    <label>Number Of Balls: </label><br>
-                    <input type="number" min="50" max="90" name="balls" id="balls" value="70"><br><br>
-                    <label>Time of Game (seconds): </label><br>
-                    <input type="number" min="60" name="time" id="time" value="60"><br><br>
-
-                    <label>Number Of Ghosts: </label><br>
-                    <input type="number" min="1" max="3" name="ghosts" id="ghosts" value="3"><br><br>
-						
-						<input class="but" type='submit' value='New Game' style="background-color: black"/>
-					</form>
-                </div>
-                <div id="can" style="float: left; position: relative; z-index:99">
-                    
-                    <canvas id="canvas" height="400" width="750" style="padding-left:150px"></canvas>
-                </div>
-                <div>
-                    <table style="float:right">
-                        <tr>
-                            <td>Lives:</td>
-                            <td><input id="lbllives" type="text" disabled style="width:80px"/><br></td>
-                        </tr>
-                        <tr>
-                            <td>Time:</td>
-                            <td><input id="lblTime" type="text" disabled style="width:80px"/></td>
-                            <br/>
-                        </tr>
-                        <tr>
-
-                            <td>Score:</td>
-                            <td><input id="lblScore" type="text" disabled style="width:80px"/></td>
-                            
-                        </tr>
-
-                       <tr><td><br><br>Scoring:</td>
-                           </tr> 
-                            <tr>
-                                <td>5: </td>
-                                <td><div id="circle" style="background: green; text-align:center"></div></td>
-                            </tr>
-                            <tr>
-                                <td>15: </td>
-                                <td><div id="circle" style="background: silver; text-align:center"></div></td>
-                            </tr>
-                            <tr>
-                                <td>25: </td>
-                                <td><div id="circle" style="background: purple; text-align:center"></div></td>
-                            </tr>
-                        </table>
+                        </div>
                     </div>
-                </div>
-            </div>
-        <footer style="height:5px; padding-top:10px">
-            Keep in touch!&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;carmelad@post.bgu.ac.il | darnet@post.bgu.ac.il
-        </footer>
-        <script type=”text/javascript”>
-function tab(tab) {
-document.getElementById(‘tab1′).style.display = ‘none’;
-document.getElementById(‘tab2′).style.display = ‘none’;
-document.getElementById(‘li_tab1′).setAttribute(“class”, “”);
-document.getElementById(‘li_tab2′).setAttribute(“class”, “”);
-document.getElementById(tab).style.display = ‘block’;
-document.getElementById(‘li_’+tab).setAttribute(“class”, “active”);
-}
-        </script>
-        <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
-        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
-        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js"></script>
-        <script type="text/javascript" src="js.js"></script>
-        <script type="text/javascript" src="index_with_obstacles.js"></script>
-    </body>
+            </tr>
+        </table>
+    </div>
+</header>
+<ng-view></ng-view>
+<!--<footer>
+    <center><div>
+        <a href="https://trilulu.000webhostapp.com/">Carmela's Site</a>
+        <img src="logo.png" style="width:50px">
+        <a href="https://darnet.000webhostapp.com/">Dar's Site</a>
+    </div></center>
+
+</footer>
+<script>
+    var modal = document.getElementById('myModal');
+    var btn = document.getElementById("myButton");
+    var span = document.getElementsByClassName("close")[0];
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+-->
+</body>
 </html>

@@ -1,0 +1,150 @@
+<div ng-controller="mainController as mainCtrl" >
+    <div ng-controller="cartController as cartCtrl">
+        <div class="hotandnew" ng-controller="productsController as productsCtrl" >
+            <div ng-init="productsCtrl.getall()">
+                <table table-layout: fixed>
+                    <tr>
+                        <th style="font-size: 30px; width: 50%">Filter by Categories:</th>
+                        <th style="font-size: 30px; width: 50%" ng-show="mainCtrl.userservice.isLoggedIn">Just for you!</th>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <form class="form-group" ng-submit="productsCtrl.getall2(); productsCtrl.resetsort(); productsCtrl.resettext()">
+                                <label>Filter by Categories:</label><br>
+                                <label ng-repeat="(cat, enabled) in productsCtrl.cats track by cat">
+                                    <input
+                                            type="checkbox"
+                                            ng-required="false"
+                                            class="form-control"
+                                            ng-model="productsCtrl.cats[cat]"
+                                            name = "favsInput"> {{productsCtrl.allcategories[cat]['name']}}
+                                </label>
+                                <input type="submit" id="btn"
+                                       class="btn btn-success btn-lg"
+                                       value="Filter!">
+                            </form>
+
+                            </br>
+                            <label>Search: </label>
+                            <input type="text" ng-model="productsCtrl.forsearch.text" placeholder="Search in items">
+                            <button ng-click="productsCtrl.search(); productsCtrl.resetsort()" >Search!</button>
+                            <br><lable>Sort By: </lable>
+                            <select ng-model="productsCtrl.sortby"
+                                    ng-options="date as date for date in productsCtrl.options"
+                                    ng-change="productsCtrl.sort()">
+                            </select>
+                            <button class="btn2" ng-click="productsCtrl.resettext(); productsCtrl.resetsort(); productsCtrl.search()"> Reset Search </button>
+
+                        <div ng-hide="productsCtrl.filter || productsCtrl.searching">
+                            <div class="why" ng-repeat="rows in productsCtrl.allitmes">
+                                <table style="padding-left: 10px">
+                                    <tr>
+                                        <th><img class ="diskPic" ng-src="{{rows[3]}}" ng-show="rows[3]" height="130" width="200"/></th>
+                                        <td>{{rows[0]}}<br>{{rows[6]}}<br>{{rows[2]}}<br></td>
+                                        <td>
+                                            <!--&emsp;&emsp;&emsp;<input min="1" type="number" ng-required="true" name="quantity" value="1" ng-model="productsCtrl.quantities[rows[0]]"><br><br>-->
+                                            &emsp;&emsp;&emsp;<input class="btn2" type="button" value="Add to cart!" ng-click="productsCtrl.addToCart(rows)"><br><br>
+                                            &emsp;&emsp;&emsp;<input class="btn2" type="button" value="full Product Details" ng-click="cartCtrl.desopen(rows)"><br><br>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div ng-hide="!productsCtrl.filter">
+                            <div class="why" ng-repeat="rows in productsCtrl.allitmes">
+                                <table style="padding-left: 10px">
+                                    <tr>
+                                        <th><img class ="diskPic" ng-src="{{rows[3]}}" ng-show="rows[3]" height="130" width="200"/></th>
+                                        <td>{{rows[0]}}<br>{{rows[6]}}<br>{{rows[2]}}<br></td>
+                                        <td >
+                                            <!--&emsp;&emsp;&emsp;<input min="1" type="number" ng-required="true" name="quantity" ng-model="productsCtrl.quantities[rows[0]]"><br><br>-->
+                                            &emsp;&emsp;&emsp;<input class="btn2" type="button" value="Add to cart!" ng-click="productsCtrl.addToCart(rows)"><br><br>
+                                            &emsp;&emsp;&emsp;<input class="btn2" type="button" value="full Product Details" ng-click="cartCtrl.desopen(rows)"><br><br>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="why" ng-repeat="rows in productsCtrl.allitmes">
+                                <table style="padding-left: 10px" ng-show="productsCtrl.searching">
+                                    <tr>
+                                        <th><img class ="diskPic" ng-src="{{rows[3]}}" ng-show="rows[3]" height="130" width="200"/></th>
+                                        <td>{{rows[0]}}<br>{{rows[6]}}<br>{{rows[2]}}<br></td>
+                                        <td >
+                                            <!--&emsp;&emsp;&emsp;<input min="1" type="number" ng-required="true" name="quantity" value="1" ng-model="productsCtrl.quantities[rows[0]]"><br><br>-->
+                                            &emsp;&emsp;&emsp;<input class="btn2" type="button" value="Add to cart!" ng-click="productsCtrl.addToCart(rows)"><br><br>
+                                            &emsp;&emsp;&emsp;<input class="btn2" type="button" value="full Product Details" ng-click="cartCtrl.desopen(rows)"><br><br>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <span class="hotandnew" ng-show="cartCtrl.showde">
+                     <div class="modal2">
+                        <div class="modal-content">
+                           <table>
+                              <button class="close" ng-click="cartCtrl.desopen()" >&times;</button>
+                              <h1>{{cartCtrl.det[0].substring(5)}}</h1>
+                              <th> <img ng-src="{{cartCtrl.det[3]}}"  height="130" width="200"/> </th>
+                              <th><br>{{cartCtrl.det[0]}}<br>{{cartCtrl.det[1]}}<br>{{cartCtrl.det[5]}}<br>{{cartCtrl.det[6]}}<br>{{cartCtrl.det[2]}}<br></th>
+                              <th>
+                                 <form name="purForm" ng-submit="productsCtrl.addToCart(cartCtrl.det)" novalidate>
+                                    <!--
+                                       &emsp;<lable>Amount: </lable>
+                                       <input min="1" type="number" ng-required="true" name="quantity" value="1" ng-model="productsCtrl.quantities[rows[0]]"><br>
+                                       <p ng-show="purForm.quantity.$invalid && !purForm.quantity.$pristine" class="help-block">must be 1 and up</p>
+                                       -->
+                                    <br>&emsp;<input type="submit" class="btn2" ng-disabled="purForm.$invalid" value="Add to cart!" >
+                                 </form>
+                              </th>
+                           </table>
+                        </div>
+                     </div>
+                  </span>
+                    </td>
+                    <td valign="top">
+                        <div class="why" ng-show="mainCtrl.userservice.isLoggedIn">
+                            <div ng-repeat="rows in productsCtrl.recommendation">
+                                <table style="padding-left: 10px">
+                                    <tr>
+                                        <th><img class ="diskPic" ng-src="{{rows[3]}}" ng-show="rows[3]" height="130" width="200"/></th>
+                                        <td>{{rows[0]}}<br>{{rows[6]}}<br>{{rows[2]}}<br></td>
+                                        <td >
+                                            <!--&emsp;&emsp;&emsp;<input min="1" type="number" ng-required="true" name="quantity" value="1" ng-model="productsCtrl.quantities[rows[0]]"><br><br>-->
+                                            &emsp;&emsp;&emsp;<input class="btn2" type="button" value="Add to cart!" ng-click="productsCtrl.addToCart(rows)"><br><br>
+                                            &emsp;&emsp;&emsp;<input class="btn2" type="button" value="full Product Details" ng-click="cartCtrl.desopen(rows)"><br><br>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <span class="hotandnew" ng-show="cartCtrl.showde">
+                     <div class="modal2">
+                        <div class="modal-content">
+                           <table>
+                              <button class="close" ng-click="cartCtrl.desopen()" >&times;</button>
+                              <h1>{{cartCtrl.det[0].substring(5)}}</h1>
+                              <th> <img ng-src="{{cartCtrl.det[3]}}"  height="130" width="200"/> </th>
+                              <th><br>{{cartCtrl.det[0]}}<br>{{cartCtrl.det[1]}}<br>{{cartCtrl.det[5]}}<br>{{cartCtrl.det[6]}}<br>{{cartCtrl.det[2]}}<br></th>
+                              <th>
+                                 <form name="purForm" ng-submit="productsCtrl.addToCart(cartCtrl.det)" novalidate>
+                                    <!--
+                                       &emsp;<lable>Amount: </lable>
+                                       <input min="1" type="number" ng-required="true" name="quantity" value="1" ng-model="productsCtrl.quantities[rows[0]]"><br>
+                                       <p ng-show="purForm.quantity.$invalid && !purForm.quantity.$pristine" class="help-block">must be 1 and up</p>
+                                       -->
+                                    <br>&emsp;<input type="submit" class="btn2" ng-disabled="purForm.$invalid" value="Add to cart!" >
+                                 </form>
+                              </th>
+                           </table>
+                        </div>
+                     </div>
+                  </span>
+                    </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

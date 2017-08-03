@@ -1,0 +1,120 @@
+<div class="hotandnew" ng-controller="registerController as registerCtrl">
+    <center><div class="register-form">
+        <p class="just">All fields must be filled in order to click the "register" button.</p>
+        <form name="registerForm" ng-submit="registerCtrl.login(registerForm.$valid)" novalidate>
+            <table>
+                <tr class="form-group">
+                    <td><label>Username</label></td>
+                    <td><input type="text"
+                               ng-model="registerCtrl.user.username"
+                               ng-required="true"
+                               class="form-control"
+                               name="usernameInput"
+                               placeholder="Enter Username"></td>
+                    <td><p ng-show="registerForm.usernameInput.$invalid && !registerForm.usernameInput.$pristine" class="help-block">Username is required</p></td>
+                </tr>
+                <tr class="form-group">
+                    <td><label>Password</label></td>
+                    <td><input type="text"
+                               ng-model="registerCtrl.user.password"
+                               ng-required="true"
+                               class="form-control"
+                               name="passwordInput"
+                               placeholder="Enter Password"></td>
+                    <td style="font-size: 0.5em"><p ng-show="registerForm.passwordInput.$invalid && !registerForm.passwordInput.$pristine" class="help-block">Password is required</p></td>
+                </tr>
+
+                <tr class="form-group" ng-init="registerCtrl.countrieslist()">
+                    <td> <label>Country</label></td>
+                    <td><select ng-model="registerCtrl.user.country"
+                                name = "countryInput"
+                                ng-required="true"
+                                ng-options="country.name for country in registerCtrl.ctrs track by country.name">
+                    </select></td>
+                    <td><p ng-show="registerForm.countryInput.$invalid && !registerForm.countryInput.$pristine" class="help-block">country is required</p></td>
+                </tr>
+
+                <tr class="form-group">
+                    <td><label>First Name</label></td>
+                    <td><input type="text"
+                               ng-model="registerCtrl.user.firstname"
+                               ng-required="true"
+                               class="form-control"
+                               name="firstnameInput"
+                               placeholder="Enter First Name"></td>
+                    <td><p style="font-size: 16px" ng-show="registerForm.firstnameInput.$invalid && !registerForm.firstnameInput.$pristine" class="help-block">First name is required</p></td>
+                </tr>
+
+                <tr class="form-group">
+                    <td><label>Last Name</label></td>
+                    <td><input type="text"
+                               ng-model="registerCtrl.user.lastname"
+                               ng-required="true"
+                               class="form-control"
+                               name="lastnameInput"
+                               placeholder="Enter Last Name"></td>
+                    <td><p ng-show="registerForm.lastnameInput.$invalid && !registerForm.lastnameInput.$pristine" class="help-block">Last name is requied</p></td>
+                </tr>
+                <tr class="form-group">
+                    <td><label>Restore Question</label></td>
+                    <td><select ng-model="registerCtrl.user.restoreQ" ng-required="true">
+                        <option>The name of your first pet.</option>
+                        <option>The birth city of your mother.</option>
+                        <option>The name of your favorite teacher.</option>
+                        <option>The name of the hospital you were born in.</option>
+
+                    </select></td>
+                    <td><p ng-show="registerForm.restoreQInput.$invalid && !registerForm.restoreQInput.$pristine" class="help-block">Restore question is required</p></td>
+                </tr>
+
+                <tr class="form-group">
+                    <td><label>Restore Answer</label></td>
+                    <td><input type="text"
+                               ng-model="registerCtrl.user.answerQ"
+                               ng-required="true"
+                               class="form-control"
+                               name="answerQInput"
+                               placeholder="Enter Restore Answer"></td>
+                    <td><p ng-show="registerForm.answerQInput.$invalid && !registerForm.answerQInput.$pristine" class="help-block">Restore answer is required</p></td>
+                </tr>
+
+                <tr class="form-group">
+                    <td><label>Email</label></td>
+                    <td><input type="text"
+                               ng-model="registerCtrl.user.email"
+                               ng-required="true"
+                               class="form-control"
+                               name="emailInput"
+                               placeholder="Enter Email"></td>
+                    <td><p ng-show="registerForm.emailInput.$invalid && !registerForm.emailInput.$pristine" class="help-block">email is required</p></td>
+                </tr>
+
+                <tr class="form-group" ng-init="registerCtrl.categorieslist()">
+                    <td style="vertical-align: top"><label>Favorite Categories<br>(Choose at least one):</label></td>
+
+                    <td><label ng-repeat="(cat, enabled) in registerCtrl.cats track by cat">
+                        <input
+                                type="checkbox"
+                                ng-required="false"
+                                class="form-control"
+                                ng-model="registerCtrl.cats[cat]"
+                                name = "favsInput"> {{registerCtrl.allcategories[cat]['name']}}<br>
+                    </label></td>
+                    <td><p ng-show="registerForm.favsInput.$invalid && !registerForm.favsInput.$pristine" class="help-block">category is required</p></td>
+                </tr>
+            </table>
+            <br>
+            <input type="submit" id="btn"
+                   class="btn btn-success btn-lg"
+                   value="Register"
+                   ng-disabled="registerForm.$invalid">
+            </tr>
+
+        </form>
+
+        <div>
+            {{registerCtrl.errorMessage}}
+        </div>
+    </div>
+    </center>
+</div>

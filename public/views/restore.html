@@ -1,0 +1,43 @@
+<center><div class="restore-container" ng-controller="restoreController as restoreCtrl">
+        <div ng-hide="restoreCtrl.showRestoreQues">
+            <form ng-submit="restoreCtrl.getquestion()" novalidate>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text"
+                           ng-model="restoreCtrl.user.username"
+                           ng-required="true"
+                           class="form-control"
+                           name="username"
+                           minlength="1"
+                           placeholder="Enter Username">
+                    <p ng-show="restoreForm.username.$invalid && !restoreForm.username.$pristine" class="help-block">username is required</p>
+
+                </div>
+                <br/><br/>
+                <input type="submit" id="btn"
+                       class="btn btn-success btn-lg"
+                       value="Get Restore question!"
+                       ng-disabled="restoreForm.$invalid">
+            </form>
+        </div>
+        <div ng-hide="!restoreCtrl.showRestoreQues">
+            <form class="form-group" name="restorePassForm" ng-submit="restoreCtrl.chceckans()" novalidate>
+                <lable>please answer the question:</lable><br>
+                <lable>{{restoreCtrl.restorq}}?</lable>
+                <br/>
+                <input type="text"
+                       ng-model="restoreCtrl.user.answerq"
+                       ng-required="true"
+                       class="form-control"
+                       name="answerq"
+                       min-length="1"
+                       placeholder="Enter answer">
+                <br/><br/>
+                <input type="submit" id="btn"
+                       class="btn btn-success btn-lg"
+                       value="Submit"
+                       ng-disabled="restoreForm.$invalid">
+            </form>
+        </div>
+    </div>
+</center>

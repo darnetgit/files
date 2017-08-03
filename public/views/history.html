@@ -1,0 +1,41 @@
+
+<div class="hotandnew" ng-controller="historyController as historyCtrl">
+    <div ng-controller="cartController as cartCtrl">
+
+        <div ng-init="historyCtrl.workk()">
+            <label>Choose Order Data:</label>
+            <select ng-model="historyCtrl.selected"
+                    ng-options="date as date for date in historyCtrl.order"
+                    ng-change="historyCtrl.calctot()">
+            </select>
+
+            <h1 ng-show="historyCtrl.selected!=null">Your order on date {{historyCtrl.selected}}:</h1>
+            <div class="why" ng-repeat="rows in historyCtrl.cart[historyCtrl.selected]">
+                <table style="padding-left: 10px">
+                    <td><th><img class ="diskPic" ng-src="{{rows[5]}}"  height="130" width="200"/></th></td>
+                    <td>{{rows[0]}}<br>{{rows[4]}}<br>{{rows[6]}}<br></td>
+                    <th><td><button id="btn" ng-click="cartCtrl.desopen(rows)"> Show full Product Details</button></td></th>
+                </table>
+            </div>
+
+            <Label ng-show="historyCtrl.selected!=null">Total price: {{historyCtrl.total}}</Label>
+            <br><span><a id="btn" href="#/cart"> back to cart</a></span>
+            <br><br>
+        </div>
+
+        <span ng-show="cartCtrl.showde">
+                <div class="modal2">
+                <div class="modal-content">
+                    <button class="close" ng-click="cartCtrl.desopen()" >&times;</button>
+            <h1>product description</h1>
+            <img ng-src="{{cartCtrl.det[5]}}"  height="130" width="200"/>
+            <br>{{cartCtrl.det[0]}}<br>{{cartCtrl.det[1]}}<br>{{cartCtrl.det[2]}}<br>{{cartCtrl.det[3]}}<br>{{cartCtrl.det[4]}}
+            <br><br>
+                </div>
+            </div>
+            </span>
+        <br>
+    </div>
+
+</div>
+
