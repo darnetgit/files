@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Ribeye+Marrow" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Paytone+One" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
     <script>
         function hide() {
             var x=document.getElementById("tohide");
@@ -32,13 +32,13 @@
 
 <header>
     <div ng-controller="mainController as mainCtrl" >
-        <table>
+        <table valign="top" width="100%">
             <tr>
                 <th><img src="logo.png" style="width:50px; padding-top: 5px">&nbsp;&nbsp;&nbsp;Puzzles</th>
                 <th colspan="1"><a ng-hide="!mainCtrl.userservice.isLoggedIn" href="#/cart"><img src="cart.png" style="width:50px; float: right"></a></th>
-                <th class="hello" colspan="3" style="text-align: right">Hello {{mainCtrl.userservice.userName}}<br> <div style="font-size: 16px" ng-show="mainCtrl.userservice.isLoggedIn">Last login: {{mainCtrl.userservice.lastLogin| date : 'medium'}}</div></th>
+                <th class="hello" colspan="5" style="text-align: right">Hello {{mainCtrl.userservice.userName}}<br> <div style="font-size: 16px" ng-show="mainCtrl.userservice.isLoggedIn">Last login: {{mainCtrl.userservice.lastLogin| date : 'medium'}}</div></th>
             </tr>
-            <tr>
+            <tr valign="top">
                 <td>Why is it called puzzles? That's the puzzle.&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                     &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</td>
                 <td><span><a class="links" href="#/">Home&emsp;</a></span></td>
@@ -48,11 +48,16 @@
                 <td><span><a  class="links" href="#/products">Products&emsp;</a></span></td>
                 <td><span><a ng-click="mainCtrl.userservice.logout()" ng-hide="!mainCtrl.userservice.isLoggedIn" class="links" href="#/">LogOut&emsp;</a></span></td>
                 <td> <span><a class="links" id="myButton" onclick="modelbox()">About</a></span></td>
-                    <div id="myModal" class="modal">
+
+                <div id="myModal" class="modal">
                         <div class="modal-content">
                             <span class="close">&times;</span>
                             <h1>Welcome to our puzzle store!</h1>
-                            <h2>here is some of our previous work:</h2>
+                            <h3>We both have passion to puzzles and we finding it very exciting solving them so we would like to spread this love with the world.<br>
+                                We found it difficult to choose fonts for the site and getting used for work with nodeJS and Angular.</h3>
+                            <h2>here is some of our previous work:<br><a href="https://darnet.000webhostapp.com/">Dar's Site</a><br><a href="https://trilulu.000webhostapp.com/">Carmela's Site</a><br>
+                                <a href="http://alonprofile.com/DarCarmela/index.html">Our very awesome PAC-MAN</a>
+                            </h2>
 
                         </div>
                     </div>

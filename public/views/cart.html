@@ -1,42 +1,60 @@
 <link rel="stylesheet" type="text/css" href="public/stylesheets/style.css">
 <script type="text/javascript" src="public/javascripts/js.js"></script>
-<div class="hotandnew" ng-controller="cartController as cartCtrl">
-    <div ng-controller="productsController as productsCtrl">
-    <div ng-init="cartCtrl.displayCart()">
-        <div class="why" ng-repeat="rows in cartCtrl.cart">
-            <table style="padding-left: 10px">
-                <td>
-                <th><img class ="diskPic" ng-src="{{rows[5]}}"  height="130" width="200"/></th>
-                <td>{{rows[0]}}<br>{{rows[4]}}<br>{{rows[7]}}</td>
-                <th>
-                <td><button id="btn" ng-click="cartCtrl.remove(rows)">Remove item from cart</button><br><br>
-                    <button id="btn" ng-click="cartCtrl.desopen(rows)"> Show full Product Details</button>
-                </td></th>
-            </table>
-            <span ng-show="cartCtrl.showde">
+<div ng-controller="mainController as mainCtrl">
+<div class="hotandnew" ng-controller="cartController as cartCtrl" ng-init="cartCtrl.nono()">
+    <div ng-show="mainCtrl.userservice.isLoggedIn" ng-controller="productsController as productsCtrl">
+        <div ng-init="cartCtrl.displayCart()">
+            <lable ng-show="cartCtrl.cart.length===0">Your cart is empty, but it doesn't have to be.</lable>
+            <div class="why">
+                <br><br>
+                <table width="98%" style="margin-left: 25px;border-bottom-color: #003366; border-bottom-style: solid">
+                    <tr>
+                        <td style="width: 80%">
+                            <table ng-repeat="rows in cartCtrl.cart">
+                                <tr style="border-bottom-color: #009999; border-bottom-style: solid">
+                                    <td class="tablecell"><img class ="diskPic" ng-src="{{rows[3]}}" ng-show="rows[3]" height="130" width="200"/></td>
+                                    <td class="tablecell">{{rows[0]}}<br>{{rows[7]}}<br>{{rows[2]}}<br></td>
+                                    <td class="tablecell">
+                                        <input class="btn2" type="button" value="full Product Details" ng-click="cartCtrl.desopen(rows)"><br><br><br>
+                                        <input class="btn2" ng-click="cartCtrl.remove(rows)" value="Remove item from cart"></input><br><br>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td style="border-left-style: solid; border-left-color: #003366;width: 20%" valign="top" align="center">
+                            <br><br>
+                            <span><a id="btn3" href="#/history" style="font-size: 32px"> show order history</a></span>
+                        </td>
+                    </tr>
+                </table>
+                <Label class="fordarkblue" style="font-size: 32px; padding-left: 30px">Total price: &#8362;{{cartCtrl.total}}</Label><br><br><br>
+                <span ng-show="cartCtrl.showde">
                 <div class="modal2">
                 <div class="modal-content">
-                    <table>
-                              <button class="close" ng-click="cartCtrl.desopen()" >&times;</button>
-                              <h1>{{cartCtrl.det[0].substring(5)}}</h1>
-                              <th> <img ng-src="{{cartCtrl.det[5]}}"  height="130" width="200"/> </th>
-                              <th><br>{{cartCtrl.det[0]}}<br>{{cartCtrl.det[1]}}<br>{{cartCtrl.det[2]}}<br>{{cartCtrl.det[3]}}<br>{{cartCtrl.det[4]}}<br></th>
-                              <th>
-                                 <form name="purForm" ng-submit="cartCtrl.update(cartCtrl.det)" novalidate>
-                                       &emsp;<lable>Update amount: </lable>
-                                       <input min="1" type="number" ng-required="true" name="quantity" value="1" ng-model="cartCtrl.amount"><br>
+                    <table valign="top" width="100%">
+                        <tr>
+                            <td style="color:#003366"><h1>{{cartCtrl.det[0].substring(5)}}</h1></td>
+                            <td colspan="2" valign="top" align="right"><button class="close" id="btn3" ng-click="cartCtrl.desopen()" >&times;</button></td>
+                        </tr>
+                        <tr class="fordarkblue">
+
+                              <td valign="top"> <img ng-src="{{cartCtrl.det[3]}}"  height="130" width="200"/> </td>
+                              <td style="padding-left: 10px"><br>{{cartCtrl.det[0]}}<br>{{cartCtrl.det[1]}}<br>{{cartCtrl.det[5]}}<br>{{cartCtrl.det[6]}}<br>{{cartCtrl.det[2]}}<br></td>
+                              <td valign="top">
+                                 <form name="purForm" ng-submit="productsCtrl.addToCart(cartCtrl.det)" novalidate>
+                                       &emsp;<lable >Update amount: </lable>
+                                       <input class="fordarkblue" min="1" type="number" ng-required="true" name="quantity" value="1" ng-model="productsCtrl.userservice.quantities1[cartCtrl.det[4]]"><br>
                                        <p ng-show="purForm.quantity.$invalid && !purForm.quantity.$pristine" class="help-block">must be 1 and up</p>
-                                    <br>&emsp;<input type="submit" class="btn2" ng-disabled="purForm.$invalid" value="Add to cart!" >
+                                    <br>&emsp;<input type="submit" id="btn3" ng-disabled="purForm.$invalid" value="Add to cart!" align="right">
                                  </form>
-                              </th>
+                              </td>
+                        </tr>
                            </table>
                 </div>
             </div>
             </span>
-
+            </div>
         </div>
-        <Label>Total price: {{cartCtrl.total}}</Label><br><br>
-        <span><a id="btn" href="#/history"> show order history</a></span>
     </div>
 </div>
 </div>

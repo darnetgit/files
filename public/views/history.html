@@ -1,10 +1,10 @@
-
+<div ng-controller="mainController as mainCtrl">
 <div class="hotandnew" ng-controller="historyController as historyCtrl">
-    <div ng-controller="cartController as cartCtrl">
-
-        <div ng-init="historyCtrl.workk()">
-            <label>Choose Order Data:</label>
-            <select ng-model="historyCtrl.selected"
+    <div ng-controller="cartController as cartCtrl" ng-init="cartCtrl.nono()">
+        <br>
+        <div ng-show="mainCtrl.userservice.isLoggedIn" ng-init="historyCtrl.workk()" style="padding-left:40px">
+            <label class="fordarkblue">Choose Order Data:</label>
+            <select ng-model="historyCtrl.selected" class="fordarkblue"
                     ng-options="date as date for date in historyCtrl.order"
                     ng-change="historyCtrl.calctot()">
             </select>
@@ -19,10 +19,9 @@
             </div>
 
             <Label ng-show="historyCtrl.selected!=null">Total price: {{historyCtrl.total}}</Label>
-            <br><span><a id="btn" href="#/cart"> back to cart</a></span>
+            <br><br><br><span><a id="btn3" href="#/cart"> back to cart</a></span>
             <br><br>
         </div>
-
         <span ng-show="cartCtrl.showde">
                 <div class="modal2">
                 <div class="modal-content">
@@ -36,6 +35,5 @@
             </span>
         <br>
     </div>
-
 </div>
-
+</div>

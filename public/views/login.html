@@ -1,11 +1,12 @@
 <div class="login-container" ng-controller="loginController as loginCtrl">
     <center><div class="login-form">
         <form name="loginForm" ng-submit="loginCtrl.login(loginForm.$valid)" novalidate>
+            <br><br><br><br>
             <table>
                 <tr class="form-group">
 
                     <td><label>Username</label></td>
-                    <td><input type="text"
+                    <td><input type="text" class="forform"
                                ng-model="loginCtrl.user.username"
                                ng-required="true"
                                class="form-control"
@@ -16,7 +17,7 @@
                 </tr>
                 <tr class="form-group">
                     <td><label>Password</label></td>
-                    <td><input type="password"
+                    <td><input type="password" class="forform"
                            ng-model="loginCtrl.user.password"
                            ng-required="true"
                            class="form-control"
@@ -27,7 +28,7 @@
                 </tr>
                 </table>
             <br>
-            <input type="submit" id="btn"
+            <input type="submit" id="btn3"
                    class="btn btn-success btn-lg"
                    value="Login"
                    ng-disabled="loginForm.$invalid">

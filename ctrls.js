@@ -71,7 +71,7 @@ app.controller('loginController', ['UserService', 'localStorageService','$locati
                 }
                 else{
                     UserService.isLoggedIn=false;
-                    $window.alert('Loser');
+                    $window.alert('wrong password');
                 }
             }, function (error) {
                 self.errorMessage=error.data;
@@ -84,6 +84,7 @@ app.controller('loginController', ['UserService', 'localStorageService','$locati
 app.controller('registerController', ['NewUser', '$location', '$window' , '$http', function (NewUser, $location, $window, $http) {
     let self=this;
     self.ctrs = [];
+    self.cities=[];
     self.login=function (valid) {
         if(valid){
             let counter=0;
@@ -97,8 +98,9 @@ app.controller('registerController', ['NewUser', '$location', '$window' , '$http
                 counter++;
             });
             self.user.categories=favscats;
-            self.user['country'] = JSON.stringify(self.user['country']['name']);
+            //self.user['country'] = JSON.stringify(self.user['country']['name']);
             //
+            self.user['country']=self.user.country;
             NewUser.login(self.user).then(function (success) {
                 if(success.data) {
                     $window.alert('user added!');
@@ -106,6 +108,7 @@ app.controller('registerController', ['NewUser', '$location', '$window' , '$http
                 }
                 else{
                     $window.alert('please select another user name');
+
                 }
             }, function (error) {
                 self.errorMessage=error.data;
@@ -121,13 +124,15 @@ app.controller('registerController', ['NewUser', '$location', '$window' , '$http
                 return aftCnv;
             }
         }).then(function (response) {
-            response.data.Countries.Country.forEach(function (item) {
-                var name = item.Name;
-                var toAdd = { "name":name};
-                self.ctrs.push(toAdd);
+                response.data.Countries.Country.forEach(function (item) {
+                    var name = item.Name;
+                    var toAdd = { "name":name};
+                    self.ctrs.push(toAdd);
+                    self.cities.push(name);
+                })
+            }
+        );
 
-            })
-        })
     };
 
     self.categorieslist=function(){
@@ -140,6 +145,25 @@ app.controller('registerController', ['NewUser', '$location', '$window' , '$http
                 self.cats.push(temp);
             });
         });
+    };
+
+    self.catselected=false;
+    var options=[false,false,false,false,false,false,false,false];
+
+    self.count=function(cat){
+        if(options[cat]===false)
+            options[cat]=true;
+        else
+            options[cat]=false;
+        self.catselected=containss(options,true);
+    };
+    function containss(a, obj) {
+        for (var i = 0; i < a.length; i++) {
+            if (a[i] === obj) {
+                return true;
+            }
+        }
+        return false;
     };
 }]);
 
@@ -170,7 +194,6 @@ app.controller('productsController', ['UserService', '$location', '$http', '$win
         });
     }
     self.getall=function() {
-        //self.quantities={};
         if (onlyonce) {
             $http.get("http://localhost:4000/allitems").then(function (recData) {
                 var data = [];
@@ -189,7 +212,7 @@ app.controller('productsController', ['UserService', '$location', '$http', '$win
                     data.push("Description: "+des);
                     var pieces=recData.data[i].pieces;
                     data.push("Pieces: "+pieces);
-                    self.quantities["Name: " + name]=1;
+                    self.userservice.quantities1[i]=0;
                 }
                 self.allitmes = [];
                 self.allitmes = chunk(data, 7);
@@ -197,15 +220,15 @@ app.controller('productsController', ['UserService', '$location', '$http', '$win
                 //self.categorieslist();
                 //if(onlyonce9===false) {
                 $http.post('/recommendation', self.user)
-                        .then(function (res) {
-                            recommen(res);
-                            $http.get('/allcategories').then(function (res) {
-                                catagory(res);
-                            });
+                    .then(function (res) {
+                        recommen(res);
+                        $http.get('/allcategories').then(function (res) {
+                            catagory(res);
                         });
+                    });
                 //}
 
-                });
+            });
             onlyonce = false;
 
         }
@@ -369,13 +392,14 @@ app.controller('productsController', ['UserService', '$location', '$http', '$win
             $http.post('/neworderid', self.userto).then(function (res) {
                 self.addto['orderid'] = res.data[0].orderid + 1;
                 self.addto['itemID'] = item[4];
-                self.addto['quentity'] = self.quantities[item[0]];
-                if (self.quantities[item[0]] > 0) {
+                self.addto['quentity'] = self.userservice.quantities1[item[4]];
+                if (self.userservice.quantities1[item[4]] > 0) {
                     $http.post('/addtocart', self.addto).then(function (res1) {
-                        if (res1.data == false)
-                            $window.alert('Item already exists in cart!');
+                        if (res1.data == 'updated')
+                            $window.alert('Item updated in cart!');
                         else
                             $window.alert('Item Added to cart!');
+                       // self.quantities[item[0]]=self.quantities[item[0]]+1;
                     });
                 }
                 else {
@@ -458,7 +482,7 @@ app.controller('productsController', ['UserService', '$location', '$http', '$win
     }
 }]);
 
-app.controller('cartController', ['UserService', '$scope', '$http', '$window' , function (UserService, $scope, $http, $window) {
+app.controller('cartController', ['UserService', '$scope', '$http', '$window','$location' , function (UserService, $scope, $http, $window,$location) {
     let self = this;
     self.amount;
     self.addto={};
@@ -467,11 +491,17 @@ app.controller('cartController', ['UserService', '$scope', '$http', '$window' , 
     self.dar=false;
     self.total = 0;
     self.userservice = UserService;
+    self.addto={username:self.userservice.userName};
+    self.nono=function () {
+        if(!self.userservice.isLoggedIn)
+            $location.path('/login');
+    };
     self.displayCart = function () {
         self.user = {username: self.userservice.userName};
         self.data = {};
         var adding = [];
         self.cart = [];
+        self.total=0;
         $http.post('/displaycart', self.user).then(function (res) {
             $http.get('/allitems').then(function (res1) {
                 for (var i = 0; i < res1.data.length; i++) {
@@ -489,16 +519,16 @@ app.controller('cartController', ['UserService', '$scope', '$http', '$window' , 
                     adding.push("Name: " + name);
                     var category = self.data[res.data[i].itemID].category;
                     adding.push("Category: " + category);
-                    var description = self.data[res.data[i].itemID].description;
-                    adding.push("Description: " + description);
-                    var pieces = self.data[res.data[i].itemID].pieces;
-                    adding.push("Pieces: " + pieces);
                     var cost = self.data[res.data[i].itemID].price;
                     adding.push("Price: " + cost);
                     var picPath = self.data[res.data[i].itemID].img;
                     adding.push(picPath);
                     var itemid = res.data[i].itemID;
                     adding.push(itemid);
+                    var description = self.data[res.data[i].itemID].description;
+                    adding.push("Description: " + description);
+                    var pieces = self.data[res.data[i].itemID].pieces;
+                    adding.push("Pieces: " + pieces);
                     var quantity = res.data[i].quentity;
                     adding.push("Quantity: " + quantity);
                     self.total += quantity * cost;
@@ -509,8 +539,7 @@ app.controller('cartController', ['UserService', '$scope', '$http', '$window' , 
     };
 
     self.remove = function (item) {
-
-        self.user = {username: self.userservice.userName, itemID: item[6]};
+        self.user = {username: self.userservice.userName, itemID: item[4]};
         $http.post('/deleteproductfromcart', self.user).then(function (res) {
             var date = new Date();
             var curDate = null;
@@ -528,37 +557,47 @@ app.controller('cartController', ['UserService', '$scope', '$http', '$window' , 
             this.det = item;
     };
     self.update=function(item) {
-        $http.post('/neworderid', self.userto).then(function (res) {
-        self.addto['orderid'] = res.data[0].orderid + 1;
-        self.addto['itemID'] = item[6];
-        self.addto['quentity'] = self.amount;
-        self.addto['username'] = self.userservice.userName;
-        $http.post('/deleteproductfromcart', self.addto)
-            .then(function (res) {
-                if(res.data==true) {
+        if (item === null) {
+            var date = new Date();
+            var curDate = null;
+            do {
+                curDate = new Date();
+            }
+            while (curDate - date < 5000);
+            self.displayCart();
+        }
+        else {
+            self.userto = {username: self.userservice.userName};
+            if (self.userservice.userName === "guest") {
+                $window.alert('must sign-in or register to shop!');
+                $location.path('/login');
+            }
+            else {
+                $http.post('/neworderid', self.userto).then(function (res) {
+                    self.addto['orderid'] = res.data[0].orderid + 1;
+                    self.addto['itemID'] = item[4];
+                    self.addto['quentity'] = self.userservice.quantities1[item[4]];
+                    if (self.userservice.quantities1[item[4]] > 0) {
+                        $http.post('/addtocart', self.addto).then(function (res1) {
+                        });
+                    }
+                    else {
+                        $window.alert('number of items added must be larger than 0');
+                    }
+                }).then(function () {
                     var date = new Date();
                     var curDate = null;
                     do {
                         curDate = new Date();
                     }
                     while (curDate - date < 1000);
-                    $http.post('/addtocart', self.addto).then(function (res) {
-                        if (res.data == true) {
-                            self.desopen();
-                            var date = new Date();
-                            var curDate = null;
-                            do {
-                                curDate = new Date();
-                            }
-                            while (curDate - date < 1000);
-                            self.displayCart();
-                        }
-                    });
-                }
-            });
-    });
-    };
+                    self.displayCart();
+                    self.desopen();
 
+                })
+            }
+        }
+    }
 }]);
 
 app.controller('historyController', ['UserService', '$scope', '$http', '$window' , function (UserService, $scope, $http, $window){
@@ -601,10 +640,10 @@ app.controller('historyController', ['UserService', '$scope', '$http', '$window'
 
                 var j=0;
                 var i=0;
-                    while(j<self.order.length-1) {
-                        for (; i < res.data.length; i++) {
-                            var str=res.data[i].orderdate;
-                            var short= str.substring(0,str.length-14);
+                while(j<self.order.length-1) {
+                    for (; i < res.data.length; i++) {
+                        var str=res.data[i].orderdate;
+                        var short= str.substring(0,str.length-14);
                         if(self.order[j]==short) {
                             var name = self.data[res.data[i].itemID].itemName;
                             adding.push("Name: " + name);
@@ -697,6 +736,11 @@ app.factory('UserService', ['$http','localStorageService', function($http, local
     service.isLoggedIn = false;
     service.userName ="guest";
     service.lastLogin=null;
+    /*self.quantities1={};
+    for(i=0;i<20;i++) {
+        self.quantities1[i] = 0;
+    }
+    */
     service.login = function(user) {
         return $http.post('/logint', user)
             .then(function(response) {

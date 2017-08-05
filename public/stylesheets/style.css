@@ -35,55 +35,56 @@ footer div a{
 }
 body{
   background: url("back.png") no-repeat center center fixed;
+  background-size:cover;
 }
 
 .form-group{
-  font-family: 'Ribeye Marrow', cursive;
+  font-family: 'Indie Flower', cursive;
   color: #003366;
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .hello{
-  font-family: 'Ribeye Marrow', cursive;
+  font-family: 'Indie Flower', cursive;
   color: #009999;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 900;
 }
 
 .form-group td p{
   color: #003366;
-  font-size: 16px;
+  font-size: 20px;
   vertical-align: middle;
 }
 
 #btn{
   color: #003366;
   background: none;
-  font-family: 'Ribeye Marrow', cursive;
-  font-size: 24px;
+  font-family: 'Indie Flower', cursive;
+  font-size: 20px;
   border:2px solid #003366;
 }
 
 .btn2{
     color: #009999;
     background: none;
-    font-family: 'Ribeye Marrow', cursive;
-    font-size: 24px;
+  font-family: 'Indie Flower', cursive;
+    font-size: 20px;
     border-color: #009999;
     vertical-align: top;
 }
 
 .just{
   color: #009999;
-  font-family: 'Ribeye Marrow', cursive;
-  font-size: 18px;
+  font-family: 'Indie Flower', cursive;
+  font-size: 20px;
 }
 
 .hotandnew{
   background-color: rgba(255,255,255,0.9);
   color: #009999;
-  font-family: 'Ribeye Marrow', cursive;
-  font-size: 18px;
+  font-family: 'Indie Flower', cursive;
+  font-size: 20px;
   margin-left: -8px;
   margin-right: -8px;
 
@@ -100,8 +101,8 @@ body{
 #btn3{
   color: #003366;
   background: none;
-  font-family: 'Ribeye Marrow', cursive;
-  font-size: 24px;
+  font-family: 'Indie Flower', cursive;
+  font-size: 20px;
   text-decoration: none;
   border:2px solid #003366;
 }
@@ -149,11 +150,111 @@ body{
   float: right;
   font-size: 28px;
   font-weight: bold;
+  color: #009999;
+  background: none;
+  font-family: 'Indie Flower', cursive;
+  border:2px solid #009999;
 }
 
 .close:hover,
-.close:focus {
+.close:focus, #btn:hover, #btn:focus,
+.btn2:hover, .btn2:focus{
   color: black;
   text-decoration: none;
   cursor: pointer;
+  border:2px solid black;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.tablecell{
+  width: 200px;
+  height:200px;
+
+
+}
+.tablecell input{
+  align-items: left;
+  float:left;
+}
+
+.forinput{
+  font-family: 'Indie Flower', cursive;
+  color: #009999;
+  font-size: 20px;
+}
+
+.fordarkblue, .fordb{
+  color: #003366;
+  font-family: 'Indie Flower', cursive;
+  font-size: 20px;
+}
+.fordb{
+  font-size: 16px;
+  color: #009999;
+  background: none;
+  font-family: 'Indie Flower', cursive;
+  border-color: #009999;
+  vertical-align: top;
+}
+
+.fordb2{
+  font-size: 16px;
+  color: #009999;
+  background: none;
+  font-family: 'Indie Flower', cursive;
+  vertical-align: top;
+}
+/*table, th, td {
+  border: 1px solid black;
+}
+
+table {
+  border-collapse: collapse;
+}*/
+
+#btn3:hover, #btn3:focus{
+  color: #009999;
+  text-decoration: none;
+  cursor: pointer;
+  border:2px solid #009999;
+}
+
+.tablecell2{
+  width: 250px;
+  height: 200px;
+}
+
+.tablecell2 input{
+  float: left;
+}
+
+.forform{
+  color: #003366;
+  font-family: 'Indie Flower', cursive;
+  font-size: 16px;
+}
+
+#btn3:disabled,
+#btn3[disabled]{
+  color: #d1d3da;
+  text-decoration: none;
+  cursor: pointer;
+  border:2px solid #d1d3da;
+  font-family: 'Indie Flower', cursive;
+}
+
+#myModal span{
+  vertical-align: top;
+  align-self:right;
+  color: #003366;
+  font-family: 'Indie Flower', cursive;
+  font-size: 32px;
+}
+
+#myModal h1,#myModal h2,#myModal h3{
+  color: #003366;
+  font-family: 'Indie Flower', cursive;
 }

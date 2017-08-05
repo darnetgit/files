@@ -1,66 +1,66 @@
 <div class="hotandnew" ng-controller="mainController as mainCtrl">
     <div ng-controller="productsController as productsCtrl">
         <div ng-controller="cartController as cartCtrl">
-        <div ng-init="productsCtrl.getnew()">
-            <table>
-                <tr>
-                    <th style="font-size: 30px; width: 50%">Top 5 products!</th>
-                    <th style="font-size: 30px; width: 50%" ng-show="mainCtrl.userservice.isLoggedIn">New products!</th>
-                </tr>
-                <tr>
-                    <td valign="top" style="vertical-align: top"><div class="why" ng-repeat="rows in productsCtrl.top">
-                        <table style="padding-left: 10px">
-                            <tr>
-                                <lable  ng-show="productsCtrl.top.length===0">No top products to show</lable>
-                                <th><img class ="diskPic" ng-src="{{rows[3]}}" ng-show="rows[3]" height="130" width="200"/></th>
-                                <td>{{rows[0]}}<br>{{rows[6]}}<br>{{rows[2]}}<br></td>
-                                <td >
-                                    <!--&emsp;&emsp;&emsp;<input min="1" type="number" ng-required="true" name="quantity" value="1" ng-model="productsCtrl.quantities[rows[0]]"><br><br>-->
-                                    &emsp;&emsp;&emsp;<input class="btn2" type="button" value="Add to cart!" ng-click="productsCtrl.addToCart(rows)"><br><br>
-                                    &emsp;&emsp;&emsp;<input class="btn2" type="button" value="full Product Details" ng-click="cartCtrl.desopen(rows)"><br><br>
-                                </td>
-                            </tr>
-                        </table>
+            <div ng-init="productsCtrl.getnew()" style="display: table; table-layout: fixed;">
+                <table style="margin-left: 8px; width:100%">
+                    <tr align="center">
+                        <td align="left" valign="top" style="padding-left: 10px; width: 50%">
+                            <h1 align="center" class="fordarkblue" style="font-size: 32px">Top 5 Products!</h1>
+                            <lable ng-show="productsCtrl.top.length===0">No top products to show</lable>
+                            <table class="why" ng-repeat="rows in productsCtrl.top" style="margin-left: 40px">
+                                <tr style="border-bottom-color: #009999; border-bottom-style: solid">
+                                    <td class="tablecell"><img class ="diskPic" ng-src="{{rows[3]}}" ng-show="rows[3]"  height="130" width="200"/></td>
+                                    <td class="tablecell">{{rows[0]}}<br>{{rows[6]}}<br>{{rows[2]}}<br></td>
+                                    <td class="tablecell" align="left">
+                                        <!--&emsp;&emsp;&emsp;<input min="1" type="number" ng-required="true" name="quantity" value="1" ng-model="productsCtrl.quantities[rows[0]]"><br><br>-->
+                                        &emsp;&emsp;&emsp;<label style="float:left">Amount:&emsp;</label><input type="number" ng-model="productsCtrl.userservice.quantities1[rows[4]]" value="1" min="1" style="width: 30px" class="fordarkblue"><br><br>
+                                        &emsp;&emsp;&emsp;<input class="btn2" type="button" value="Add to cart!" ng-click="productsCtrl.addToCart(rows)" align="left"><br>
+                                        &emsp;&emsp;&emsp;<input class="btn2" type="button" value="full Product Details" ng-click="cartCtrl.desopen(rows)" align="left"><br>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td  style="padding-left: 10px; width: 50%" align="center" valign="top"  ng-show="mainCtrl.userservice.isLoggedIn">
+                            <h1 class="fordarkblue" style="font-size: 32px" align="center" ng-show="mainCtrl.userservice.isLoggedIn">New products!</h1>
+                            <lable  ng-show="productsCtrl.new.length===0">No new products to show</lable>
 
-                </div></td>
-                    <td valign="top" ng-show="mainCtrl.userservice.isLoggedIn" >
-                        <table style="padding-left: 10px" ng-repeat="rows in productsCtrl.new">
-                            <tr valign="top">
-                                <lable  ng-show="productsCtrl.new.length===0">No new products to show</lable>
-                                <th><img class ="diskPic" ng-src="{{rows[3]}}" ng-show="rows[3]" height="130" width="200"/></th>
-                                <td>{{rows[0]}}<br>{{rows[6]}}<br>{{rows[2]}}<br></td>
-                                <td ng-hide="productsCtrl.new.length===0">
-                                    <!--&emsp;&emsp;&emsp;<input min="1" type="number" ng-required="true" name="quantity" value="1" ng-model="productsCtrl.quantities[rows[0]]"><br><br>-->
-                                    &emsp;&emsp;&emsp;<input class="btn2" type="button" value="Add to cart!" ng-click="productsCtrl.addToCart(rows)"><br><br>
-                                    &emsp;&emsp;&emsp;<input class="btn2" type="button" value="full Product Details" ng-click="cartCtrl.desopen(rows)"><br><br>
-                                </td>
-                            </tr>
-                        </table>
-                    </td></tr>
-            </table>
-        </div>
+                            <table  class="why" ng-repeat="rows in productsCtrl.new" align="right" style="margin-right:200px">
+                                <tr style="border-bottom-color: #009999; border-bottom-style: solid">
+                                    <td class="tablecell"><img class ="diskPic" ng-src="{{rows[3]}}" ng-show="rows[3]" height="130" width="200"/></td>
+                                    <td class="tablecell">{{rows[0]}}<br>{{rows[6]}}<br>{{rows[2]}}<br></td>
+                                    <td class="tablecell" ng-hide="productsCtrl.new.length===0">
+                                        <!--&emsp;&emsp;&emsp;<input min="1" type="number" ng-required="true" name="quantity" value="1" ng-model="productsCtrl.quantities[rows[0]]"><br><br>-->
+                                        &emsp;&emsp;&emsp;<label style="float: left">Amount:&emsp;</label><input type="number" ng-model="productsCtrl.userservice.quantities1[rows[4]]" value="1" min="1" style="width: 30px" class="fordarkblue"><br><br>
+                                        &emsp;&emsp;&emsp;<input class="btn2" type="button" value="Add to cart!" ng-click="productsCtrl.addToCart(rows)"><br>
+                                        &emsp;&emsp;&emsp;<input class="btn2" type="button" value="full Product Details" ng-click="cartCtrl.desopen(rows)"><br>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
             <span class="hotandnew" ng-show="cartCtrl.showde">
                      <div class="modal2">
                         <div class="modal-content">
-                           <table>
-                              <button class="close" ng-click="cartCtrl.desopen()" >&times;</button>
-                              <h1>{{cartCtrl.det[0].substring(5)}}</h1>
-                              <th> <img ng-src="{{cartCtrl.det[3]}}"  height="130" width="200"/> </th>
-                              <th><br>{{cartCtrl.det[0]}}<br>{{cartCtrl.det[1]}}<br>{{cartCtrl.det[5]}}<br>{{cartCtrl.det[6]}}<br>{{cartCtrl.det[2]}}<br></th>
-                              <th>
+                           <table valign="top" width="100%">
+                              <tr>
+                                  <td style="color:#003366"><h1>{{cartCtrl.det[0].substring(5)}}</h1> </td><td colspan="2" valign="top" align="right"><button class="close" id="btn3" ng-click="cartCtrl.desopen()" >&times;</button></td>
+                              </tr>
+                               <tr >
+                              <td valign="top"> <img ng-src="{{cartCtrl.det[3]}}"  height="130" width="200"/> </td>
+                              <td style="padding-left: 10px">{{cartCtrl.det[0]}}<br>{{cartCtrl.det[1]}}<br>{{cartCtrl.det[5]}}<br>{{cartCtrl.det[6]}}<br>{{cartCtrl.det[2]}}<br></td>
+                              <td valign="top">
                                  <form name="purForm" ng-submit="productsCtrl.addToCart(cartCtrl.det)" novalidate>
-                                    <!--
-                                       &emsp;<lable>Amount: </lable>
-                                       <input min="1" type="number" ng-required="true" name="quantity" value="1" ng-model="productsCtrl.quantities[rows[0]]"><br>
-                                       <p ng-show="purForm.quantity.$invalid && !purForm.quantity.$pristine" class="help-block">must be 1 and up</p>
-                                       -->
-                                    <br>&emsp;<input type="submit" class="btn2" ng-disabled="purForm.$invalid" value="Add to cart!" >
+                                    <label style="float: left">Amount:&emsp;</label><input type="number" ng-model="productsCtrl.userservice.quantities1[cartCtrl.det[4]]" value="1" min="1" style="width: 30px" class="fordarkblue"><br><br>
+                                        &emsp;&emsp;&emsp;<input class="btn2" type="button" value="Add to cart!" ng-click="productsCtrl.addToCart(cartCtrl.det)"><br>
                                  </form>
-                              </th>
+                              </td>
+                               </tr>
                            </table>
                         </div>
                      </div>
                   </span>
+        </div>
     </div>
-</div>
 </div>

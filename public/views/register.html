@@ -1,42 +1,49 @@
+
 <div class="hotandnew" ng-controller="registerController as registerCtrl">
     <center><div class="register-form">
         <p class="just">All fields must be filled in order to click the "register" button.</p>
-        <form name="registerForm" ng-submit="registerCtrl.login(registerForm.$valid)" novalidate>
+        <form onsubmit="return checkCheckBoxes(this);" name="registerForm" ng-submit="registerCtrl.login(registerForm.$valid)" novalidate>
             <table>
                 <tr class="form-group">
                     <td><label>Username</label></td>
-                    <td><input type="text"
+                    <td><input class="forform" type="text"
                                ng-model="registerCtrl.user.username"
                                ng-required="true"
                                class="form-control"
+                               pattern="[A-Za-z]{3,8}"
                                name="usernameInput"
                                placeholder="Enter Username"></td>
-                    <td><p ng-show="registerForm.usernameInput.$invalid && !registerForm.usernameInput.$pristine" class="help-block">Username is required</p></td>
+                    <td><p ng-show="registerForm.usernameInput.$invalid && !registerForm.usernameInput.$pristine" class="help-block">3 to 8 letter only</p></td>
                 </tr>
                 <tr class="form-group">
                     <td><label>Password</label></td>
-                    <td><input type="text"
+                    <td><input class="forform" type="password"
                                ng-model="registerCtrl.user.password"
                                ng-required="true"
                                class="form-control"
                                name="passwordInput"
+                               pattern="[a-zA-Z0-9-]{5,10}"
                                placeholder="Enter Password"></td>
-                    <td style="font-size: 0.5em"><p ng-show="registerForm.passwordInput.$invalid && !registerForm.passwordInput.$pristine" class="help-block">Password is required</p></td>
+                    <td style="font-size: 0.5em"><p ng-show="registerForm.passwordInput.$invalid && !registerForm.passwordInput.$pristine" class="help-block">5 to 10 letters and numbers</p></td>
                 </tr>
 
                 <tr class="form-group" ng-init="registerCtrl.countrieslist()">
                     <td> <label>Country</label></td>
-                    <td><select ng-model="registerCtrl.user.country"
-                                name = "countryInput"
-                                ng-required="true"
-                                ng-options="country.name for country in registerCtrl.ctrs track by country.name">
+                    <td><select class="forform"
+                            id="repeatSelect"
+                            ng-model="registerCtrl.user.country"
+                            name = "countryInput"
+                            ng-required="true"
+                            ng-options="country for country in registerCtrl.cities">
                     </select></td>
-                    <td><p ng-show="registerForm.countryInput.$invalid && !registerForm.countryInput.$pristine" class="help-block">country is required</p></td>
+
+                    <td>
+                        <p ng-show="registerForm.countryInput.$invalid && !registerForm.countryInput.$pristine" class="help-block">country is required</p></td>
                 </tr>
 
                 <tr class="form-group">
                     <td><label>First Name</label></td>
-                    <td><input type="text"
+                    <td><input type="text" class="forform"
                                ng-model="registerCtrl.user.firstname"
                                ng-required="true"
                                class="form-control"
@@ -47,7 +54,7 @@
 
                 <tr class="form-group">
                     <td><label>Last Name</label></td>
-                    <td><input type="text"
+                    <td><input type="text" class="forform"
                                ng-model="registerCtrl.user.lastname"
                                ng-required="true"
                                class="form-control"
@@ -57,7 +64,7 @@
                 </tr>
                 <tr class="form-group">
                     <td><label>Restore Question</label></td>
-                    <td><select ng-model="registerCtrl.user.restoreQ" ng-required="true">
+                    <td><select class="forform" ng-model="registerCtrl.user.restoreQ" ng-required="true">
                         <option>The name of your first pet.</option>
                         <option>The birth city of your mother.</option>
                         <option>The name of your favorite teacher.</option>
@@ -69,7 +76,7 @@
 
                 <tr class="form-group">
                     <td><label>Restore Answer</label></td>
-                    <td><input type="text"
+                    <td><input class="forform" type="text"
                                ng-model="registerCtrl.user.answerQ"
                                ng-required="true"
                                class="form-control"
@@ -80,34 +87,38 @@
 
                 <tr class="form-group">
                     <td><label>Email</label></td>
-                    <td><input type="text"
+                    <td><input class="forform" type="text"
                                ng-model="registerCtrl.user.email"
                                ng-required="true"
                                class="form-control"
                                name="emailInput"
+                               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
                                placeholder="Enter Email"></td>
-                    <td><p ng-show="registerForm.emailInput.$invalid && !registerForm.emailInput.$pristine" class="help-block">email is required</p></td>
+                    <td><p ng-show="registerForm.emailInput.$invalid && !registerForm.emailInput.$pristine" class="help-block">email must be valid</p></td>
                 </tr>
 
                 <tr class="form-group" ng-init="registerCtrl.categorieslist()">
                     <td style="vertical-align: top"><label>Favorite Categories<br>(Choose at least one):</label></td>
 
                     <td><label ng-repeat="(cat, enabled) in registerCtrl.cats track by cat">
-                        <input
+                        <input class="forform"
+                                ng-change="registerCtrl.count(cat)"
                                 type="checkbox"
                                 ng-required="false"
                                 class="form-control"
                                 ng-model="registerCtrl.cats[cat]"
                                 name = "favsInput"> {{registerCtrl.allcategories[cat]['name']}}<br>
                     </label></td>
+
                     <td><p ng-show="registerForm.favsInput.$invalid && !registerForm.favsInput.$pristine" class="help-block">category is required</p></td>
                 </tr>
             </table>
             <br>
-            <input type="submit" id="btn"
-                   class="btn btn-success btn-lg"
+            <input type="submit" id="btn3"
                    value="Register"
-                   ng-disabled="registerForm.$invalid">
+                   ng-disabled="registerForm.$invalid || registerCtrl.user.country==null || !registerCtrl.catselected ">
+            <!-- id="btn" class="btn btn-success btn-lg"-->
+
             </tr>
 
         </form>

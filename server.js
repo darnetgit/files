@@ -322,6 +322,7 @@ app.post('/addtocart', function (req,res) {
     var alreadyexists=false;
     var preque="select username, itemID from Cart where username='"+username+"' and itemID="+itemID;
     var que="insert into Cart (itemID,quentity,username,orderid) values ("+itemID+","+quantity+",'"+username+"',"+orderid+")";
+    var que2="update cart set quentity="+quantity+" where username='"+username+"' and itemID="+itemID+" and orderid="+orderid;
     var newproincart= DButilsAzure.promiseSelect(connection, preque);
     newproincart.then(function (ans) {
         if(ans.length==1)
@@ -329,11 +330,12 @@ app.post('/addtocart', function (req,res) {
     })//make sure the user does not have such product in the cart.
         .then(function (ans) {
             if(alreadyexists==true) {
-                res.send(false);
+                DButilsAzure.Insert(que2, config);
+                res.send('updated');
             }
             else {
                 DButilsAzure.Insert(que, config);
-                res.send(true);
+                res.send('added');
             }
         }).catch( function (err) {
         console.log(err);
