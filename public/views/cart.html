@@ -27,7 +27,7 @@
                         </td>
                     </tr>
                 </table>
-                <Label class="fordarkblue" style="font-size: 32px; padding-left: 30px">Total price: &#8362;{{cartCtrl.total}}</Label><br><br><br>
+                <Label class="fordarkblue" style="font-size: 32px; padding-left: 30px">Total price: {{cartCtrl.total}} NIS</Label><br><br><br>
                 <span ng-show="cartCtrl.showde">
                 <div class="modal2">
                 <div class="modal-content">
@@ -41,9 +41,9 @@
                               <td valign="top"> <img ng-src="{{cartCtrl.det[3]}}"  height="130" width="200"/> </td>
                               <td style="padding-left: 10px"><br>{{cartCtrl.det[0]}}<br>{{cartCtrl.det[1]}}<br>{{cartCtrl.det[5]}}<br>{{cartCtrl.det[6]}}<br>{{cartCtrl.det[2]}}<br></td>
                               <td valign="top">
-                                 <form name="purForm" ng-submit="productsCtrl.addToCart(cartCtrl.det)" novalidate>
+                                 <form name="purForm" ng-submit="cartCtrl.update(cartCtrl.det)" novalidate>
                                        &emsp;<lable >Update amount: </lable>
-                                       <input class="fordarkblue" min="1" type="number" ng-required="true" name="quantity" value="1" ng-model="productsCtrl.userservice.quantities1[cartCtrl.det[4]]"><br>
+                                       <input class="fordarkblue" min="1" type="number" ng-required="true" name="quantity" value="1" ng-model="cartCtrl.userservice.quantities1[cartCtrl.det[4]]"><br>
                                        <p ng-show="purForm.quantity.$invalid && !purForm.quantity.$pristine" class="help-block">must be 1 and up</p>
                                     <br>&emsp;<input type="submit" id="btn3" ng-disabled="purForm.$invalid" value="Add to cart!" align="right">
                                  </form>

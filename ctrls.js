@@ -43,7 +43,10 @@ app.controller('restoreController', ['UserService', '$location', '$window' , '$h
                     self.showRestoreQues = true;
             });
     };
-
+    self.nono=function () {
+        if(UserService.isLoggedIn)
+            $location.path('/home');
+    };
     self.chceckans=function(){
         $http.post('RestoreUserPassword', self.user).then(function(res){
             if(res['data']!="wrong answer")
@@ -79,12 +82,18 @@ app.controller('loginController', ['UserService', 'localStorageService','$locati
             })
         }
     };
+
+    self.nono=function () {
+        if(UserService.isLoggedIn)
+            $location.path('/home');
+    };
 }]);
 
-app.controller('registerController', ['NewUser', '$location', '$window' , '$http', function (NewUser, $location, $window, $http) {
+app.controller('registerController', ['UserService','NewUser', '$location', '$window' , '$http', function (UserService, NewUser, $location, $window, $http) {
     let self=this;
     self.ctrs = [];
     self.cities=[];
+    self.userservice=UserService;
     self.login=function (valid) {
         if(valid){
             let counter=0;
@@ -115,6 +124,10 @@ app.controller('registerController', ['NewUser', '$location', '$window' , '$http
                 $window=alert(error);
             })
         }
+    };
+    self.nono=function () {
+        if(self.userservice.isLoggedIn)
+            $location.path('/products');
     };
     self.countrieslist=function(){
         $http.get("countries.xml", {
@@ -203,7 +216,7 @@ app.controller('productsController', ['UserService', '$location', '$http', '$win
                     var artist = recData.data[i].category;
                     data.push("category: " + artist);
                     var cost = recData.data[i].price;
-                    data.push("Price: " + cost);
+                    data.push("Price: " + cost+" NIS");
                     var picPath = recData.data[i].img;
                     data.push(picPath);
                     var itemid=recData.data[i].itemID;
@@ -212,7 +225,7 @@ app.controller('productsController', ['UserService', '$location', '$http', '$win
                     data.push("Description: "+des);
                     var pieces=recData.data[i].pieces;
                     data.push("Pieces: "+pieces);
-                    self.userservice.quantities1[i]=0;
+                    self.quantities["Name: " + name]=1;
                 }
                 self.allitmes = [];
                 self.allitmes = chunk(data, 7);
@@ -244,7 +257,7 @@ app.controller('productsController', ['UserService', '$location', '$http', '$win
                     var artist = recData.data[i].category;
                     data.push("category: " + artist);
                     var cost = recData.data[i].price;
-                    data.push("Price: " + cost);
+                    data.push("Price: " + cost+" NIS");
                     var picPath = recData.data[i].img;
                     data.push(picPath);
                     var itemid=recData.data[i].itemID;
@@ -288,7 +301,7 @@ app.controller('productsController', ['UserService', '$location', '$http', '$win
                             var artist = res.data[i][j].category;
                             data.push("category: " + artist);
                             var cost = res.data[i][j].price;
-                            data.push("Price: " + cost);
+                            data.push("Price: " + cost+" NIS");
                             var picPath = res.data[i][j].img;
                             data.push(picPath);
                             var itemid=res.data[i][j].itemID;
@@ -308,7 +321,7 @@ app.controller('productsController', ['UserService', '$location', '$http', '$win
                         var artist = res.data[i].category;
                         data.push("category: " + artist);
                         var cost = res.data[i].price;
-                        data.push("Price: " + cost);
+                        data.push("Price: " + cost+" NIS");
                         var picPath = res.data[i].img;
                         data.push(picPath);
                         var itemid=res.data[i].itemID;
@@ -338,7 +351,7 @@ app.controller('productsController', ['UserService', '$location', '$http', '$win
                     var artist = recData.data[i].category;
                     data.push("category: " + artist);
                     var cost = recData.data[i].price;
-                    data.push("Price: " + cost);
+                    data.push("Price: " + cost+" NIS");
                     var picPath = recData.data[i].img;
                     data.push(picPath);
                     var itemid=recData.data[i].itemID;
@@ -367,7 +380,7 @@ app.controller('productsController', ['UserService', '$location', '$http', '$win
                 var artist = res.data[i].category;
                 data.push("category: " + artist);
                 var cost = res.data[i].price;
-                data.push("Price: " + cost);
+                data.push("Price: " + cost+" NIS");
                 var picPath = res.data[i].img;
                 data.push(picPath);
                 var itemid=res.data[i].itemID;
@@ -520,7 +533,7 @@ app.controller('cartController', ['UserService', '$scope', '$http', '$window','$
                     var category = self.data[res.data[i].itemID].category;
                     adding.push("Category: " + category);
                     var cost = self.data[res.data[i].itemID].price;
-                    adding.push("Price: " + cost);
+                    adding.push("Price: " + cost+" NIS");
                     var picPath = self.data[res.data[i].itemID].img;
                     adding.push(picPath);
                     var itemid = res.data[i].itemID;
@@ -654,7 +667,7 @@ app.controller('historyController', ['UserService', '$scope', '$http', '$window'
                             var pieces = self.data[res.data[i].itemID].pieces;
                             adding.push("Pieces: " + pieces);
                             var cost = self.data[res.data[i].itemID].price;
-                            adding.push("Price: " + cost);
+                            adding.push("Price: " + cost+" NIS");
                             var picPath = self.data[res.data[i].itemID].img;
                             adding.push(picPath);
                             var Quantity = res.data[i].quantity;
@@ -736,11 +749,10 @@ app.factory('UserService', ['$http','localStorageService', function($http, local
     service.isLoggedIn = false;
     service.userName ="guest";
     service.lastLogin=null;
-    /*self.quantities1={};
+    self.quantities1={};
     for(i=0;i<20;i++) {
         self.quantities1[i] = 0;
     }
-    */
     service.login = function(user) {
         return $http.post('/logint', user)
             .then(function(response) {

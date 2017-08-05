@@ -1,5 +1,5 @@
 
-<div class="hotandnew" ng-controller="registerController as registerCtrl">
+<div class="hotandnew" ng-controller="registerController as registerCtrl" ng-init="registerCtrl.nono()">
     <center><div class="register-form">
         <p class="just">All fields must be filled in order to click the "register" button.</p>
         <form onsubmit="return checkCheckBoxes(this);" name="registerForm" ng-submit="registerCtrl.login(registerForm.$valid)" novalidate>
